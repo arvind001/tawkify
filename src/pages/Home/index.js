@@ -17,7 +17,7 @@ export default function Home(props) {
       <div className="list__container">
         <List
           label="Set top 3 priorities"
-          max={3}
+          //   max={3}
           placeholder="Add a priority"
           required={true}
           // disabled={true}
