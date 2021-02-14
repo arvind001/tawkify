@@ -146,7 +146,7 @@ export default function List(props) {
             } `}
             onClick={onClickAdd}
           >
-            Add
+            Submit
           </a>
         </div>
         <Droppable droppableId="list-items__container">
