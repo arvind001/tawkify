@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ListItem from "../ListItem/index";
-import { cloneDeep, isNil } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
+import isNil from "lodash/isNil";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import "./style.css";
 
