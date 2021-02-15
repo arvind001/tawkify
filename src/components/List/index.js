@@ -1,17 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ListItem from "../ListItem/index";
+import { store } from "../../store/store";
 import cloneDeep from "lodash/cloneDeep";
 import isNil from "lodash/isNil";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import "./style.css";
 
 export default function List(props) {
+  const gState = useContext(store);
+  const { dispatch } = gState;
+  const globalState = gState.state;
   const [list, setList] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState(false);
   const [errorType, setErrorType] = useState();
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [max, setMax] = useState(!isNil(props.max) ? props.max : null);
+  // const [max, setMax] = useState(!isNil(props.max) ? props.max : null);
+
+  useEffect(() => {
+    if (!globalState.required) {
+      setErrorType("");
+      setError(false);
+    }
+  }, [globalState.required]);
+
+  useEffect(() => {
+    setList([]);
+  }, [globalState.max]);
 
   const checkForError = (value = inputValue) => {
     if (!isNil(props.required) && props.required) {
@@ -57,7 +72,7 @@ export default function List(props) {
   };
 
   const onClickAdd = () => {
-    if (isNil(max) || list.length < max) {
+    if (isNil(props.max) || list.length < props.max) {
       var tempList = cloneDeep(list);
 
       if (inputValue !== "" && !list.includes(inputValue)) {
@@ -84,7 +99,7 @@ export default function List(props) {
   const deleteListItem = (item) => {
     const tempList = list.filter((el) => el !== item);
     setList(tempList);
-    if (!isNil(max) && list.length <= max) {
+    if (!isNil(props.max) && list.length <= props.max) {
       setError(false);
       setButtonDisabled(false);
       setErrorType("");
