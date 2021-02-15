@@ -50,12 +50,10 @@ export default function List(props) {
   useEffect(() => {
     if (globalState.max !== "") {
       if (parseInt(globalState.max) < 0) {
-        console.log("global max", globalState.max);
         setDisabledByMax(false);
         return;
       }
     }
-    console.log("doing othe things");
     setList([]);
     setDisabledByMax(false);
     if (globalState.disabled) {
@@ -141,33 +139,6 @@ export default function List(props) {
       }
       console.log("what is the list length here", list.length);
     }
-    // if (
-    //   list.length < parseInt(globalState.max) ||
-    //   globalState.max === "" ||
-    //   parseInt(globalState.max) < 0
-    // ) {
-    //   var tempList = cloneDeep(list);
-
-    //   if (childValue !== "" && !list.includes(childValue)) {
-    //     tempList.push(childValue);
-    //     setList(tempList);
-    //     setError(false);
-    //     setButtonDisabled(false);
-    //     setErrorType(subtexts.none);
-    //     setChildValue("");
-    //     if (list.length === globalState.max - 1) {
-    //       console.log("im getting set");
-    //       setButtonDisabled(true);
-    //       setErrorType(subtexts.max);
-    //       setDisabledByMax(true);
-    //     }
-    //     console.log("what is the list length here", list.length);
-    //   }
-    // } else {
-    //   setError(true);
-    //   setErrorType(subtexts.max);
-    //   setButtonDisabled(false);
-    // }
   };
 
   const deleteListItem = (item) => {
