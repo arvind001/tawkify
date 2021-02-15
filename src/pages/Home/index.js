@@ -10,10 +10,12 @@ export default function Home(props) {
   var max = state.max !== "" ? parseInt(state.max) : null;
   return (
     <div className="home__container row">
-      <div className="list-controller__container">
+      <div className="list-controller__container col">
+        <div className="home__heading">List Input Properties Controller</div>
         <Controller />
       </div>
-      <div className="list__container">
+      <div className="home__list__container col">
+        <div className="home__heading">List Input</div>
         <List
           label={state.label}
           max={max}

@@ -114,7 +114,17 @@ export default function List(props) {
   };
 
   const onInputFocus = (value) => {
-    checkForError(value);
+    if (list.includes(value)) {
+      setError(true);
+      setButtonDisabled(true);
+      setErrorType(subtexts.duplicate);
+      return;
+    }
+
+    setError(false);
+    setButtonDisabled(false);
+    setErrorType(subtexts.none);
+    // checkForError(value);
   };
 
   const onInputBlur = () => {
@@ -179,7 +189,17 @@ export default function List(props) {
 
   const trackInputInParent = (value) => {
     setChildValue(value);
-    checkForError(value);
+    if (list.includes(value)) {
+      setError(true);
+      setButtonDisabled(true);
+      setErrorType(subtexts.duplicate);
+      return;
+    }
+
+    setError(false);
+    setButtonDisabled(false);
+    setErrorType(subtexts.none);
+    // checkForError(value);
   };
 
   return (
@@ -187,7 +207,7 @@ export default function List(props) {
       <div className="list__container column">
         <div className="list-input-control__container row">
           <ListInput
-            triggerAdd={onClickAdd}
+            onClickEnter={onClickAdd}
             label={props.label}
             trackInput={trackInputInParent}
             error={error}

@@ -35,12 +35,14 @@ export default function Controller(props) {
         placeholder="Enter label"
         value={globalState.label}
         onChange={(event) => onLabelChange(event.target.value)}
+        className="controller__input"
       />
       <input
         type="text"
         placeholder="Enter placeholder"
         value={globalState.placeholder}
         onChange={(event) => onPlaceholderChange(event.target.value)}
+        className="controller__input"
       />
       <div className="checkbox-label__container row">
         <input
@@ -64,6 +66,7 @@ export default function Controller(props) {
         placeholder="Enter max"
         onChange={(event) => onMaxChange(event.target.value)}
         value={globalState.max}
+        className="controller__input"
       />
     </div>
   );

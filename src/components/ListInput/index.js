@@ -3,7 +3,7 @@ import "./style.css";
 
 export default function ListInput(props) {
   const {
-    triggerAdd,
+    onClickEnter,
     label,
     trackInput,
     error,
@@ -21,7 +21,7 @@ export default function ListInput(props) {
 
   const onKeyEnter = (event) => {
     if (event.keyCode === 13) {
-      triggerAdd();
+      onClickEnter();
     }
   };
 

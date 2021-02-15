@@ -1,3 +1,15 @@
-.list__container {
+.home__list__container {
+  padding: 20px;
+  /* padding-left: 0px; */
+}
+
+.home__heading {
+  font-size: 30px;
+  font-weight: 600;
+  text-align: start;
+  margin-bottom: 20px;
+}
+
+.list-controller__container {
   padding: 20px;
 }
