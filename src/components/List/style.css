@@ -44,7 +44,7 @@
   justify-content: space-between;
 }
 
-.list-input__button {
+/* .list-input__button {
   padding: 4px;
   background-color: purple;
   color: white;
@@ -71,14 +71,14 @@
   cursor: not-allowed;
   pointer-events: none;
   background-color: lightgray;
-}
-
+} */
+/* 
 .list-input__subtext {
   font-size: 10px;
   text-align: start;
   margin-top: 3px;
   height: 16px;
-}
+} */
 
 .list-items__container {
   max-height: 530px;

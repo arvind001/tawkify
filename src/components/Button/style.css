@@ -1,0 +1,28 @@
+.list-input__button {
+  padding: 4px;
+  background-color: purple;
+  color: white;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-bottom: 19px;
+  /* vertical-align: middle; */
+  height: 39px;
+  width: 100%;
+  line-height: 28px;
+  font-weight: 600;
+  border: 2px solid transparent;
+}
+
+.list-input__button:hover {
+  background-color: white;
+  color: purple;
+  border: 2px solid purple;
+  height: 39px;
+  line-height: 28px;
+}
+
+.list-input__button--disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  background-color: lightgray;
+}

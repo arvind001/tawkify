@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import ListItem from "../ListItem/index";
+import ListInput from "../ListInput/index";
+import Button from "../Button/index";
 import { store } from "../../store/store";
+import { subtexts } from "../../constants/subtexts";
 import cloneDeep from "lodash/cloneDeep";
 import isNil from "lodash/isNil";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -8,49 +11,85 @@ import "./style.css";
 
 export default function List(props) {
   const gState = useContext(store);
-  const { dispatch } = gState;
   const globalState = gState.state;
   const [list, setList] = useState([]);
-  const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState(false);
   const [errorType, setErrorType] = useState();
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  // const [max, setMax] = useState(!isNil(props.max) ? props.max : null);
+  const [childValue, setChildValue] = useState("");
+  const [disabledByMax, setDisabledByMax] = useState(false);
+
+  useEffect(() => {
+    if (globalState.disabled) {
+      setErrorType(subtexts.disabled);
+    } else {
+      if (globalState.required && list.length === 0) {
+        setErrorType(subtexts.required);
+        setError(true);
+      } else if (list.length >= parseInt(globalState.max)) {
+        setErrorType(subtexts.max);
+      } else {
+        setErrorType(subtexts.none);
+      }
+    }
+  }, [globalState.disabled]);
 
   useEffect(() => {
     if (!globalState.required) {
-      setErrorType("");
+      if (globalState.disabled) {
+        setErrorType(subtexts.disabled);
+      } else if (list.length >= parseInt(globalState.max)) {
+        setErrorType(subtexts.max);
+      } else {
+        setErrorType(subtexts.none);
+      }
       setError(false);
     }
   }, [globalState.required]);
 
   useEffect(() => {
+    if (globalState.max !== "") {
+      if (parseInt(globalState.max) < 0) {
+        return;
+      }
+    }
+
     setList([]);
+    setDisabledByMax(false);
+    if (globalState.disabled) {
+      setErrorType(subtexts.disabled);
+    } else {
+      setErrorType(subtexts.none);
+    }
+    setButtonDisabled(false);
   }, [globalState.max]);
 
-  const checkForError = (value = inputValue) => {
+  useEffect(() => {
+    if (globalState.max !== "" && list.length >= parseInt(globalState.max)) {
+      setDisabledByMax(true);
+    } else {
+      setDisabledByMax(false);
+    }
+  }, [list]);
+
+  const checkForError = (value = childValue) => {
     if (!isNil(props.required) && props.required) {
       if (list.length === 0) {
         setError(true);
         setButtonDisabled(false);
-        setErrorType("This field is required. Please add an item.");
+        setErrorType(subtexts.required);
         return;
       }
     }
     if (list.includes(value)) {
       setError(true);
       setButtonDisabled(true);
-      setErrorType("This item is already in the list");
+      setErrorType(subtexts.duplicate);
       return;
     }
     setError(false);
     setButtonDisabled(false);
-    setErrorType("");
-  };
-
-  const onInputChange = (input) => {
-    setInputValue(input);
-    checkForError(input);
+    setErrorType(subtexts.none);
   };
 
   const onInputFocus = (value) => {
@@ -61,38 +100,37 @@ export default function List(props) {
     if (!isNil(props.required) && props.required) {
       if (list.length === 0) {
         setError(true);
-        setErrorType("This field is required. Please add an item.");
+        setErrorType(subtexts.required);
         setButtonDisabled(false);
         return;
       }
     }
     setError(false);
-    setErrorType("");
-    setButtonDisabled(false);
+    setErrorType(subtexts.none);
   };
 
   const onClickAdd = () => {
     if (isNil(props.max) || list.length < props.max) {
       var tempList = cloneDeep(list);
 
-      if (inputValue !== "" && !list.includes(inputValue)) {
-        tempList.push(inputValue);
+      if (childValue !== "" && !list.includes(childValue)) {
+        tempList.push(childValue);
         setList(tempList);
         setError(false);
         setButtonDisabled(false);
-        setErrorType("");
-        setInputValue("");
+        setErrorType(subtexts.none);
+        setChildValue("");
+        if (list.length === props.max - 1) {
+          setButtonDisabled(true);
+          setErrorType(subtexts.max);
+          setDisabledByMax(true);
+        }
+        console.log("what is the list length here", list.length);
       }
     } else {
       setError(true);
-      setErrorType("List reached limit. Delete item to add a new one.");
+      setErrorType(subtexts.max);
       setButtonDisabled(false);
-    }
-  };
-
-  const onInputKeyEnter = (code) => {
-    if (code === 13) {
-      onClickAdd();
     }
   };
 
@@ -108,7 +146,7 @@ export default function List(props) {
       if (tempList.length === 0) {
         setError(true);
         setButtonDisabled(false);
-        setErrorType("This field is required. Please add an item.");
+        setErrorType(subtexts.required);
       }
     }
   };
@@ -121,48 +159,34 @@ export default function List(props) {
     setList(items);
   };
 
+  const trackInputInParent = (value) => {
+    setChildValue(value);
+    checkForError(value);
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="list__container column">
         <div className="list-input-control__container row">
-          <div className="list-input__container column">
-            <div className="list-input__label">{props.label}</div>
-            <input
-              type="text"
-              onChange={(event) => onInputChange(event.target.value)}
-              value={inputValue}
-              onKeyUp={(event) => onInputKeyEnter(event.keyCode)}
-              className={`${
-                error
-                  ? "list-input list-input--error"
-                  : "list-input list-input--base"
-              } ${
-                !isNil(props.disabled) &&
-                props.disabled &&
-                "list-input--disabled"
-              }`}
-              placeholder={props.placeholder}
-              onFocus={(event) => onInputFocus(event.target.value)}
-              onBlur={() => onInputBlur()}
-            />
-            <div className={`list-input__subtext ${error && "error"}`}>
-              {error && (isNil(props.disabled) || !props.disabled)
-                ? errorType
-                : ""}
-              {!isNil(props.disabled) &&
-                props.disabled &&
-                "This field is disabled. "}
-            </div>
-          </div>
-          <a
-            className={`list-input__button ${
-              (buttonDisabled || (!isNil(props.disabled) && props.disabled)) &&
-              "list-input__button--disabled"
-            } `}
+          <ListInput
+            triggerAdd={onClickAdd}
+            label={props.label}
+            trackInput={trackInputInParent}
+            error={error}
+            placeholder={props.placeholder}
+            disabled={props.disabled || disabledByMax}
+            onBlur={onInputBlur}
+            onFocus={onInputFocus}
+            subText={errorType}
+            value={childValue}
+          />
+          <Button
             onClick={onClickAdd}
-          >
-            Add
-          </a>
+            disabled={
+              buttonDisabled || (!isNil(props.disabled) && props.disabled)
+            }
+            label="Add"
+          />
         </div>
         <Droppable droppableId="list-items__container">
           {(provided) => (
