@@ -19,30 +19,34 @@ export default function List(props) {
   const [childValue, setChildValue] = useState("");
   const [disabledByMax, setDisabledByMax] = useState(false);
 
+  const pickErrorType = () => {
+    if (globalState.disabled) {
+      setErrorType(subtexts.disabled);
+    } else if (
+      globalState.max !== "" &&
+      parseInt(globalState.max) >= 0 &&
+      list.length >= parseInt(globalState.max)
+    ) {
+      setErrorType(subtexts.max);
+    } else if (globalState.required && list.length === 0) {
+      setErrorType(subtexts.required);
+      setError(true);
+    } else {
+      setErrorType(subtexts.none);
+    }
+  };
+
   useEffect(() => {
     if (globalState.disabled) {
       setErrorType(subtexts.disabled);
     } else {
-      if (globalState.required && list.length === 0) {
-        setErrorType(subtexts.required);
-        setError(true);
-      } else if (list.length >= parseInt(globalState.max)) {
-        setErrorType(subtexts.max);
-      } else {
-        setErrorType(subtexts.none);
-      }
+      pickErrorType();
     }
   }, [globalState.disabled]);
 
   useEffect(() => {
     if (!globalState.required) {
-      if (globalState.disabled) {
-        setErrorType(subtexts.disabled);
-      } else if (list.length >= parseInt(globalState.max)) {
-        setErrorType(subtexts.max);
-      } else {
-        setErrorType(subtexts.none);
-      }
+      pickErrorType();
       setError(false);
     }
   }, [globalState.required]);
@@ -50,6 +54,11 @@ export default function List(props) {
   useEffect(() => {
     if (globalState.max !== "") {
       if (parseInt(globalState.max) < 0) {
+        if (globalState.disabled) {
+          setErrorType(subtexts.disabled);
+        } else {
+          setErrorType(subtexts.none);
+        }
         setDisabledByMax(false);
         return;
       }
@@ -132,12 +141,10 @@ export default function List(props) {
       setErrorType(subtexts.none);
       setChildValue("");
       if (list.length === globalState.max - 1) {
-        console.log("im getting set");
         setButtonDisabled(true);
         setErrorType(subtexts.max);
         setDisabledByMax(true);
       }
-      console.log("what is the list length here", list.length);
     }
   };
 
