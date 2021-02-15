@@ -1,12 +1,25 @@
 .list-item__container {
-  width: 300px;
+  width: 320px;
   justify-content: space-between;
-  padding: 5px 10px;
+  padding: 5px 0px 5px 10px;
+  border-radius: 5px;
+  align-items: center;
+  margin: 10px 0;
+  background-color: white;
+}
+
+.list-item__container:hover {
+  background-color: #e5e5e5;
+}
+
+.dragging {
+  background-color: #e5e5e5;
 }
 
 .remove:hover {
   border-radius: 20px;
-  background-color: rgba(211, 211, 211, 0.5);
+  background-color: rgba(211, 211, 211, 1);
+
   cursor: pointer;
   /* padding: 5px; */
 }
