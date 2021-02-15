@@ -50,10 +50,12 @@ export default function List(props) {
   useEffect(() => {
     if (globalState.max !== "") {
       if (parseInt(globalState.max) < 0) {
+        console.log("global max", globalState.max);
+        setDisabledByMax(false);
         return;
       }
     }
-
+    console.log("doing othe things");
     setList([]);
     setDisabledByMax(false);
     if (globalState.disabled) {
@@ -65,9 +67,21 @@ export default function List(props) {
   }, [globalState.max]);
 
   useEffect(() => {
-    if (globalState.max !== "" && list.length >= parseInt(globalState.max)) {
+    if (
+      globalState.max !== "" &&
+      parseInt(globalState.max) >= 0 &&
+      list.length >= parseInt(globalState.max)
+    ) {
       setDisabledByMax(true);
+      setErrorType(subtexts.max);
     } else {
+      if (globalState.disabled) {
+        setErrorType(subtexts.disabled);
+      } else if (globalState.required && list.length === 0) {
+        setErrorType(subtexts.required);
+      } else {
+        setErrorType(subtexts.none);
+      }
       setDisabledByMax(false);
     }
   }, [list]);
@@ -110,34 +124,60 @@ export default function List(props) {
   };
 
   const onClickAdd = () => {
-    if (isNil(props.max) || list.length < props.max) {
-      var tempList = cloneDeep(list);
+    var tempList = cloneDeep(list);
 
-      if (childValue !== "" && !list.includes(childValue)) {
-        tempList.push(childValue);
-        setList(tempList);
-        setError(false);
-        setButtonDisabled(false);
-        setErrorType(subtexts.none);
-        setChildValue("");
-        if (list.length === props.max - 1) {
-          setButtonDisabled(true);
-          setErrorType(subtexts.max);
-          setDisabledByMax(true);
-        }
-        console.log("what is the list length here", list.length);
-      }
-    } else {
-      setError(true);
-      setErrorType(subtexts.max);
+    if (childValue !== "" && !list.includes(childValue)) {
+      tempList.push(childValue);
+      setList(tempList);
+      setError(false);
       setButtonDisabled(false);
+      setErrorType(subtexts.none);
+      setChildValue("");
+      if (list.length === globalState.max - 1) {
+        console.log("im getting set");
+        setButtonDisabled(true);
+        setErrorType(subtexts.max);
+        setDisabledByMax(true);
+      }
+      console.log("what is the list length here", list.length);
     }
+    // if (
+    //   list.length < parseInt(globalState.max) ||
+    //   globalState.max === "" ||
+    //   parseInt(globalState.max) < 0
+    // ) {
+    //   var tempList = cloneDeep(list);
+
+    //   if (childValue !== "" && !list.includes(childValue)) {
+    //     tempList.push(childValue);
+    //     setList(tempList);
+    //     setError(false);
+    //     setButtonDisabled(false);
+    //     setErrorType(subtexts.none);
+    //     setChildValue("");
+    //     if (list.length === globalState.max - 1) {
+    //       console.log("im getting set");
+    //       setButtonDisabled(true);
+    //       setErrorType(subtexts.max);
+    //       setDisabledByMax(true);
+    //     }
+    //     console.log("what is the list length here", list.length);
+    //   }
+    // } else {
+    //   setError(true);
+    //   setErrorType(subtexts.max);
+    //   setButtonDisabled(false);
+    // }
   };
 
   const deleteListItem = (item) => {
     const tempList = list.filter((el) => el !== item);
     setList(tempList);
-    if (!isNil(props.max) && list.length <= props.max) {
+    if (
+      globalState.max !== "" &&
+      parseInt(globalState.max) >= 0 &&
+      list.length <= parseInt(globalState.max)
+    ) {
       setError(false);
       setButtonDisabled(false);
       setErrorType("");
