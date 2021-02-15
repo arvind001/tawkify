@@ -20,7 +20,7 @@ export default function ListItem(props) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <div className="list-item__label">&bull; {props.label}</div>
+          <div className="list-item__label">&bull; &nbsp; {props.label}</div>
           <div
             className={`remove ${props.disabled && "remove--disabled"}`}
             onClick={onClickDelete}
