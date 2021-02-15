@@ -1,0 +1,46 @@
+.list-input {
+  width: 210px;
+  border-style: unset;
+  border: 2px solid transparent;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.list-input--base:focus {
+  outline: unset;
+  border: 2px solid purple;
+  border-radius: 4px;
+}
+
+.list-input--base {
+  border-bottom: 2px solid purple;
+}
+
+.list-input--error {
+  border-bottom: 2px solid red;
+}
+
+.list-input--error:focus {
+  outline: unset;
+
+  border: 2px solid red;
+  border-radius: 4px;
+}
+
+.list-input--disabled {
+  pointer-events: none;
+  border-bottom: 2px solid lightgray;
+}
+
+.list-input__label {
+  text-align: start;
+  font-size: 10px;
+  margin-bottom: 5px;
+}
+
+.list-input__subtext {
+  font-size: 10px;
+  text-align: start;
+  margin-top: 3px;
+  height: 16px;
+}
