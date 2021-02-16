@@ -209,7 +209,7 @@ export default function List(props) {
         </div>
         <Droppable droppableId="list-items__container">
           {(provided) => (
-            <ul
+            <div
               className="list-items__container column"
               {...provided.droppableProps}
               ref={provided.innerRef}
@@ -227,7 +227,7 @@ export default function List(props) {
                 );
               })}
               {provided.placeholder}
-            </ul>
+            </div>
           )}
         </Droppable>
       </div>
