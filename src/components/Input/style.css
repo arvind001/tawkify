@@ -1,5 +1,5 @@
 .input {
-  width: 210px;
+  width: 240px;
   border-style: unset;
   border: 2px solid transparent;
   padding: 10px;
@@ -22,8 +22,8 @@
 
 .input--error:focus {
   outline: unset;
-
-  border: 2px solid red;
+  border: 2px solid transparent;
+  border-bottom: 2px solid red;
   border-radius: 4px;
 }
 
@@ -34,12 +34,12 @@
 
 .input__label {
   text-align: start;
-  font-size: 10px;
+  font-size: 16px;
   margin-bottom: 5px;
 }
 
 .input__subtext {
-  font-size: 10px;
+  font-size: 12px;
   text-align: start;
   margin-top: 3px;
   height: 16px;
