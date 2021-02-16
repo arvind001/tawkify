@@ -32,10 +32,10 @@ export default function Controller(props) {
     <div className="controller__container col">
       <Input
         onClickEnter={() => {}}
-        label="Change Label"
+        label="Label"
         trackInput={onLabelChange}
         error={false}
-        placeholder="Enter label"
+        placeholder="Set label"
         value={globalState.label}
         disabled={false}
         onBlur={() => {}}
@@ -45,10 +45,10 @@ export default function Controller(props) {
       />
       <Input
         onClickEnter={() => {}}
-        label="Change Placeholder"
+        label="Placeholder"
         trackInput={onPlaceholderChange}
         error={false}
-        placeholder="Enter placeholder"
+        placeholder="Set placeholder"
         value={globalState.placeholder}
         disabled={false}
         onBlur={() => {}}
@@ -58,10 +58,10 @@ export default function Controller(props) {
       />
       <Input
         onClickEnter={() => {}}
-        label="Change Max"
+        label="Max Entries"
         trackInput={onMaxChange}
         error={false}
-        placeholder="Enter max"
+        placeholder="Set max entries"
         value={globalState.max}
         disabled={false}
         onBlur={() => {}}
@@ -69,7 +69,7 @@ export default function Controller(props) {
         subText="Negatives will be treated the same as no max."
         type="number"
       />
-      <div className="label">Set Required</div>
+      {/* <div className="label">Set Required</div> */}
       <div className="checkbox-label__container row">
         <input
           type="checkbox"
@@ -78,7 +78,7 @@ export default function Controller(props) {
         />
         <div className="checkbox-label">Required</div>
       </div>
-      <div className="label">Set Disabled</div>
+      {/* <div className="label">Set Disabled</div> */}
       <div className="checkbox-label__container row">
         <input
           type="checkbox"
