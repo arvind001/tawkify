@@ -17,7 +17,6 @@ export default function Controller(props) {
   };
 
   const onRequiredChange = (value) => {
-    // console.log("whatis this value", value);
     dispatch({ type: "SET_STATE", attribute: "required", payload: value });
   };
 
@@ -44,13 +43,6 @@ export default function Controller(props) {
         subText=""
         type="text"
       />
-      {/* <input
-        type="text"
-        placeholder="Enter label"
-        value={globalState.label}
-        onChange={(event) => onLabelChange(event.target.value)}
-        className="controller__input"
-      /> */}
       <Input
         onClickEnter={() => {}}
         label="Change Placeholder"
@@ -64,7 +56,6 @@ export default function Controller(props) {
         subText=""
         type="text"
       />
-
       <Input
         onClickEnter={() => {}}
         label="Change Max"

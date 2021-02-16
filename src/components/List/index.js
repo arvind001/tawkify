@@ -105,7 +105,6 @@ export default function List(props) {
     setError(false);
     setButtonDisabled(false);
     setSubText(SUBTEXTS.none);
-    // checkForError(value);
   };
 
   const onInputBlur = () => {
@@ -180,7 +179,6 @@ export default function List(props) {
     setError(false);
     setButtonDisabled(false);
     setSubText(SUBTEXTS.none);
-    // checkForError(value);
   };
 
   return (
