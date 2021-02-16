@@ -127,12 +127,12 @@ export default function List(props) {
     var tempList = cloneDeep(list);
 
     if (childValue !== "" && !list.includes(childValue)) {
-      setList(tempList);
       setError(false);
       setButtonDisabled(false);
 
       setSubText(SUBTEXTS.none);
       tempList.push(childValue);
+      setList(tempList);
       setChildValue("");
       if (list.length === globalState.max - 1) {
         setButtonDisabled(true);

@@ -32,6 +32,7 @@ export default function Input(props) {
       <input
         type={type}
         value={value}
+        disabled={disabled}
         onChange={onInputChange}
         onKeyUp={onKeyEnter}
         className={`${error ? "input input--error" : "input input--base"} ${
