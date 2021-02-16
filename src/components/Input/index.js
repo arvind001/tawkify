@@ -3,16 +3,17 @@ import "./style.css";
 
 export default function Input(props) {
   const {
-    onClickEnter,
-    label,
-    trackInput,
-    error,
-    placeholder,
-    disabled,
-    onBlur,
-    onFocus,
-    subText,
-    value,
+    onClickEnter = () => {},
+    label = "",
+    trackInput = () => {},
+    error = false,
+    placeholder = "",
+    disabled = false,
+    onBlur = () => {},
+    onFocus = () => {},
+    subText = "",
+    value = "",
+    type = "text",
   } = props;
 
   const onInputChange = (event) => {
@@ -29,7 +30,7 @@ export default function Input(props) {
     <div className="input__container col">
       <div className="input__label">{label}</div>
       <input
-        type="text"
+        type={type}
         value={value}
         onChange={onInputChange}
         onKeyUp={onKeyEnter}

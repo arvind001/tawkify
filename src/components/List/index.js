@@ -198,6 +198,7 @@ export default function List(props) {
             onFocus={onInputFocus}
             subText={subText}
             value={childValue}
+            type="text"
           />
           <Button
             onClick={onClickAdd}

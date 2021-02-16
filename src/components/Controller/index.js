@@ -42,6 +42,7 @@ export default function Controller(props) {
         onBlur={() => {}}
         onFocus={() => {}}
         subText=""
+        type="text"
       />
       {/* <input
         type="text"
@@ -61,6 +62,7 @@ export default function Controller(props) {
         onBlur={() => {}}
         onFocus={() => {}}
         subText=""
+        type="text"
       />
 
       <Input
@@ -74,6 +76,7 @@ export default function Controller(props) {
         onBlur={() => {}}
         onFocus={() => {}}
         subText="Negatives will be treated the same as no max."
+        type="number"
       />
       <div className="label">Set Required</div>
       <div className="checkbox-label__container row">
