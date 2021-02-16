@@ -68,6 +68,9 @@ export default function List(props) {
     setDisabledByMax(false);
     if (globalState.disabled) {
       setSubText(SUBTEXTS.disabled);
+    } else if (globalState.required && list.length === 0) {
+      setSubText(SUBTEXTS.required);
+      setError(true);
     } else {
       setSubText(SUBTEXTS.none);
     }
