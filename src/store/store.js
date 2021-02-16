@@ -1,5 +1,4 @@
 import React, { createContext, useReducer } from "react";
-import cloneDeep from "lodash/cloneDeep";
 
 const initialState = {
   required: false,
@@ -18,7 +17,7 @@ const StateProvider = ({ children }) => {
       case "SET_STATE":
         return {
           ...state,
-          [action.attribute]: cloneDeep(action.payload),
+          [action.attribute]: action.payload,
         };
     }
   }, initialState);

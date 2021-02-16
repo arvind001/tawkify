@@ -11,23 +11,27 @@ export default function ListItem(props) {
   return (
     <Draggable key={props.key} draggableId={props.label} index={props.index}>
       {(provided, snapshot) => (
-        <div
-          className={`list-item__container row ${
-            snapshot.isDragging && "dragging"
-          }`}
-          key={props.uniqueKey}
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          <div className="list-item__label">&bull; &nbsp; {props.label}</div>
-          <div
-            className={`remove ${props.disabled && "remove--disabled"}`}
-            onClick={onClickDelete}
-          >
-            <ClearIcon fontSize="small" style={{ padding: "5px" }} />
+        <li>
+          <div className="inline-block">
+            <div
+              className={`list-item__container row ${
+                snapshot.isDragging && "dragging"
+              }`}
+              key={props.uniqueKey}
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+            >
+              <div className="list-item__label">{props.label}</div>
+              <button
+                className={`remove ${props.disabled && "remove--disabled"}`}
+                onClick={onClickDelete}
+              >
+                <ClearIcon fontSize="small" style={{ padding: "5px" }} />
+              </button>
+            </div>
           </div>
-        </div>
+        </li>
       )}
     </Draggable>
   );

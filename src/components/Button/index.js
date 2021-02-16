@@ -7,9 +7,7 @@ export default function Button(props) {
     <button
       onClick={props.onClick}
       disabled={props.disabled}
-      className={`list-input__button ${
-        props.disabled && `list-input__button--disabled`
-      }`}
+      className={`button ${props.disabled && `button--disabled`}`}
     >
       {props.label}
     </button>

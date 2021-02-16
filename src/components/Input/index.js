@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "./style.css";
 
-export default function ListInput(props) {
+export default function Input(props) {
   const {
     onClickEnter,
     label,
@@ -26,21 +26,21 @@ export default function ListInput(props) {
   };
 
   return (
-    <div className="list-input__container col">
-      <div className="list-input__label">{label}</div>
+    <div className="input__container col">
+      <div className="input__label">{label}</div>
       <input
         type="text"
         value={value}
         onChange={onInputChange}
         onKeyUp={onKeyEnter}
-        className={`${
-          error ? "list-input list-input--error" : "list-input list-input--base"
-        } ${disabled && "list-input--disabled"}`}
+        className={`${error ? "input input--error" : "input input--base"} ${
+          disabled && "input--disabled"
+        }`}
         placeholder={placeholder}
         onFocus={(event) => onFocus(event.target.value)}
         onBlur={() => onBlur()}
       />
-      <div className={`list-input__subtext ${error && !disabled && "error"}`}>
+      <div className={`input__subtext ${error && !disabled && "error"}`}>
         {subText}
       </div>
     </div>

@@ -12,6 +12,17 @@ code {
     monospace;
 }
 
+button {
+  border-style: unset;
+  background-color: unset;
+}
+
+button:hover {
+  border-radius: unset;
+  border-style: unset;
+  background-color: unset;
+}
+
 .row {
   display: flex;
 }
@@ -23,4 +34,8 @@ code {
 
 .error {
   color: red;
+}
+
+.inline-block {
+  display: inline-block;
 }

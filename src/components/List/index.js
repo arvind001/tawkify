@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import ListItem from "../ListItem/index";
-import ListInput from "../ListInput/index";
+import Input from "../Input/index";
 import Button from "../Button/index";
 import { store } from "../../store/store";
-import { subtexts } from "../../constants/subtexts";
+import { SUBTEXTS } from "../../constants/subtexts";
 import cloneDeep from "lodash/cloneDeep";
 import isNil from "lodash/isNil";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -14,39 +14,40 @@ export default function List(props) {
   const globalState = gState.state;
   const [list, setList] = useState([]);
   const [error, setError] = useState(false);
-  const [errorType, setErrorType] = useState();
+  const [subText, setSubText] = useState();
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [childValue, setChildValue] = useState("");
   const [disabledByMax, setDisabledByMax] = useState(false);
 
-  const pickErrorType = () => {
+  const pickSubText = () => {
     if (globalState.disabled) {
-      setErrorType(subtexts.disabled);
+      setSubText(SUBTEXTS.disabled);
     } else if (
       globalState.max !== "" &&
       parseInt(globalState.max) >= 0 &&
       list.length >= parseInt(globalState.max)
     ) {
-      setErrorType(subtexts.max);
+      setSubText(SUBTEXTS.max);
     } else if (globalState.required && list.length === 0) {
-      setErrorType(subtexts.required);
+      setSubText(SUBTEXTS.required);
       setError(true);
     } else {
-      setErrorType(subtexts.none);
+      setSubText(SUBTEXTS.none);
+      setError(false);
     }
   };
 
   useEffect(() => {
     if (globalState.disabled) {
-      setErrorType(subtexts.disabled);
+      setSubText(SUBTEXTS.disabled);
     } else {
-      pickErrorType();
+      pickSubText();
     }
   }, [globalState.disabled]);
 
   useEffect(() => {
     if (!globalState.required) {
-      pickErrorType();
+      pickSubText();
       setError(false);
     }
   }, [globalState.required]);
@@ -55,9 +56,9 @@ export default function List(props) {
     if (globalState.max !== "") {
       if (parseInt(globalState.max) < 0) {
         if (globalState.disabled) {
-          setErrorType(subtexts.disabled);
+          setSubText(SUBTEXTS.disabled);
         } else {
-          setErrorType(subtexts.none);
+          setSubText(SUBTEXTS.none);
         }
         setDisabledByMax(false);
         return;
@@ -66,9 +67,9 @@ export default function List(props) {
     setList([]);
     setDisabledByMax(false);
     if (globalState.disabled) {
-      setErrorType(subtexts.disabled);
+      setSubText(SUBTEXTS.disabled);
     } else {
-      setErrorType(subtexts.none);
+      setSubText(SUBTEXTS.none);
     }
     setButtonDisabled(false);
   }, [globalState.max]);
@@ -80,64 +81,44 @@ export default function List(props) {
       list.length >= parseInt(globalState.max)
     ) {
       setDisabledByMax(true);
-      setErrorType(subtexts.max);
+      setSubText(SUBTEXTS.max);
     } else {
       if (globalState.disabled) {
-        setErrorType(subtexts.disabled);
+        setSubText(SUBTEXTS.disabled);
       } else if (globalState.required && list.length === 0) {
-        setErrorType(subtexts.required);
+        setSubText(SUBTEXTS.required);
       } else {
-        setErrorType(subtexts.none);
+        setSubText(SUBTEXTS.none);
       }
       setDisabledByMax(false);
     }
   }, [list]);
 
-  const checkForError = (value = childValue) => {
-    if (!isNil(props.required) && props.required) {
-      if (list.length === 0) {
-        setError(true);
-        setButtonDisabled(false);
-        setErrorType(subtexts.required);
-        return;
-      }
-    }
-    if (list.includes(value)) {
-      setError(true);
-      setButtonDisabled(true);
-      setErrorType(subtexts.duplicate);
-      return;
-    }
-    setError(false);
-    setButtonDisabled(false);
-    setErrorType(subtexts.none);
-  };
-
   const onInputFocus = (value) => {
     if (list.includes(value)) {
       setError(true);
       setButtonDisabled(true);
-      setErrorType(subtexts.duplicate);
+      setSubText(SUBTEXTS.duplicate);
       return;
     }
 
     setError(false);
     setButtonDisabled(false);
-    setErrorType(subtexts.none);
+    setSubText(SUBTEXTS.none);
     // checkForError(value);
   };
 
   const onInputBlur = () => {
-    if (!isNil(props.required) && props.required) {
+    if (props.required) {
       if (list.length === 0) {
         setError(true);
-        setErrorType(subtexts.required);
+        setSubText(SUBTEXTS.required);
         setButtonDisabled(false);
         return;
       }
     }
     setError(false);
-    setErrorType(subtexts.none);
+    setSubText(SUBTEXTS.none);
   };
 
   const onClickAdd = () => {
@@ -148,11 +129,11 @@ export default function List(props) {
       setList(tempList);
       setError(false);
       setButtonDisabled(false);
-      setErrorType(subtexts.none);
+      setSubText(SUBTEXTS.none);
       setChildValue("");
       if (list.length === globalState.max - 1) {
         setButtonDisabled(true);
-        setErrorType(subtexts.max);
+        setSubText(SUBTEXTS.max);
         setDisabledByMax(true);
       }
     }
@@ -168,13 +149,13 @@ export default function List(props) {
     ) {
       setError(false);
       setButtonDisabled(false);
-      setErrorType("");
+      setSubText("");
     }
     if (!isNil(props.required) && props.required) {
       if (tempList.length === 0) {
         setError(true);
         setButtonDisabled(false);
-        setErrorType(subtexts.required);
+        setSubText(SUBTEXTS.required);
       }
     }
   };
@@ -192,13 +173,13 @@ export default function List(props) {
     if (list.includes(value)) {
       setError(true);
       setButtonDisabled(true);
-      setErrorType(subtexts.duplicate);
+      setSubText(SUBTEXTS.duplicate);
       return;
     }
 
     setError(false);
     setButtonDisabled(false);
-    setErrorType(subtexts.none);
+    setSubText(SUBTEXTS.none);
     // checkForError(value);
   };
 
@@ -206,7 +187,7 @@ export default function List(props) {
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="list__container column">
         <div className="list-input-control__container row">
-          <ListInput
+          <Input
             onClickEnter={onClickAdd}
             label={props.label}
             trackInput={trackInputInParent}
@@ -215,7 +196,7 @@ export default function List(props) {
             disabled={props.disabled || disabledByMax}
             onBlur={onInputBlur}
             onFocus={onInputFocus}
-            subText={errorType}
+            subText={subText}
             value={childValue}
           />
           <Button
@@ -228,7 +209,7 @@ export default function List(props) {
         </div>
         <Droppable droppableId="list-items__container">
           {(provided) => (
-            <div
+            <ul
               className="list-items__container column"
               {...provided.droppableProps}
               ref={provided.innerRef}
@@ -246,7 +227,7 @@ export default function List(props) {
                 );
               })}
               {provided.placeholder}
-            </div>
+            </ul>
           )}
         </Droppable>
       </div>
