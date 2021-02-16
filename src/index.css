@@ -39,3 +39,7 @@ button:hover {
 .inline-block {
   display: inline-block;
 }
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}

@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import Input from "../Input/index";
 import { store } from "../../store/store";
 import "./style.css";
 
@@ -30,20 +31,51 @@ export default function Controller(props) {
 
   return (
     <div className="controller__container col">
-      <input
+      <Input
+        onClickEnter={() => {}}
+        label="Change Label"
+        trackInput={onLabelChange}
+        error={false}
+        placeholder="Enter label"
+        value={globalState.label}
+        disabled={false}
+        onBlur={() => {}}
+        onFocus={() => {}}
+        subText=""
+      />
+      {/* <input
         type="text"
         placeholder="Enter label"
         value={globalState.label}
         onChange={(event) => onLabelChange(event.target.value)}
         className="controller__input"
-      />
-      <input
-        type="text"
+      /> */}
+      <Input
+        onClickEnter={() => {}}
+        label="Change Placeholder"
+        trackInput={onPlaceholderChange}
+        error={false}
         placeholder="Enter placeholder"
         value={globalState.placeholder}
-        onChange={(event) => onPlaceholderChange(event.target.value)}
-        className="controller__input"
+        disabled={false}
+        onBlur={() => {}}
+        onFocus={() => {}}
+        subText=""
       />
+
+      <Input
+        onClickEnter={() => {}}
+        label="Change Max"
+        trackInput={onMaxChange}
+        error={false}
+        placeholder="Enter max"
+        value={globalState.max}
+        disabled={false}
+        onBlur={() => {}}
+        onFocus={() => {}}
+        subText="Negatives will be treated the same as no max."
+      />
+      <div className="label">Set Required</div>
       <div className="checkbox-label__container row">
         <input
           type="checkbox"
@@ -52,6 +84,7 @@ export default function Controller(props) {
         />
         <div className="checkbox-label">Required</div>
       </div>
+      <div className="label">Set Disabled</div>
       <div className="checkbox-label__container row">
         <input
           type="checkbox"
@@ -60,14 +93,6 @@ export default function Controller(props) {
         />
         <div className="checkbox-label">Disabled</div>
       </div>
-
-      <input
-        type="number"
-        placeholder="Enter max"
-        onChange={(event) => onMaxChange(event.target.value)}
-        value={globalState.max}
-        className="controller__input"
-      />
     </div>
   );
 }

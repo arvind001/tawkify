@@ -1,4 +1,20 @@
-.controller__input {
-  margin: 10px;
-  margin-left: unset;
+.checkbox-label__container {
+  margin-bottom: 10px;
+}
+
+.checkbox-label {
+  font-size: 15px;
+  color: #7c7c7c;
+}
+
+.label {
+  margin: 10px 0;
+  text-align: start;
+  font-size: 10px;
+}
+
+.controller__container {
+  border: 2px solid #e5e5e5;
+  border-radius: 7px;
+  padding: 20px;
 }

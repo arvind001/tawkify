@@ -11,7 +11,7 @@ export default function Home(props) {
   return (
     <div className="home__container row">
       <div className="list-controller__container col">
-        <div className="home__heading">List Input Properties Controller</div>
+        <div className="home__heading">Input Properties Controller</div>
         <Controller />
       </div>
       <div className="home__list__container col">
