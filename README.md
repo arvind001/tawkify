@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Design Decisions: I included a Button component to go alongside the input. The input can be added via the button or by clicking enter. Additionally I assumed that a user is not allowed to include duplicates in te list and I have designed and developed UI to respond in those cases appropriately. PLease reach out if you have any questions regarding design decisions or coding decisions. I am always ready to provide a deep explanation of my code and the architecture of my components
+Design Decisions: I included a Button component to go alongside the input. The input can be added via the button or by clicking enter. Additionally I assumed that a user is not allowed to include duplicates in the list and I have designed and developed UI to respond to those cases appropriately. Please reach out if you have any questions regarding design or coding decisions. I am always ready to provide a deep explanation of my code and the architecture of my components.
 
 ## Available Scripts
 
