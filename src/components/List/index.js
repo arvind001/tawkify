@@ -10,6 +10,8 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import "./style.css";
 
 export default function List(props) {
+  //State and other initial variables used by List
+
   const gState = useContext(store);
   const globalState = gState.state;
   const [list, setList] = useState([]);
@@ -19,83 +21,7 @@ export default function List(props) {
   const [childValue, setChildValue] = useState("");
   const [disabledByMax, setDisabledByMax] = useState(false);
 
-  const pickSubText = () => {
-    if (globalState.disabled) {
-      setSubText(SUBTEXTS.disabled);
-    } else if (
-      globalState.max !== "" &&
-      parseInt(globalState.max) >= 0 &&
-      list.length >= parseInt(globalState.max)
-    ) {
-      setSubText(SUBTEXTS.max);
-    } else if (globalState.required && list.length === 0) {
-      setSubText(SUBTEXTS.required);
-      setError(true);
-    } else {
-      setSubText(SUBTEXTS.none);
-      setError(false);
-    }
-  };
-
-  useEffect(() => {
-    if (globalState.disabled) {
-      setSubText(SUBTEXTS.disabled);
-    } else {
-      pickSubText();
-    }
-  }, [globalState.disabled]);
-
-  useEffect(() => {
-    if (!globalState.required) {
-      pickSubText();
-      setError(false);
-    }
-  }, [globalState.required]);
-
-  useEffect(() => {
-    if (globalState.max !== "") {
-      if (parseInt(globalState.max) < 0) {
-        if (globalState.disabled) {
-          setSubText(SUBTEXTS.disabled);
-        } else {
-          setSubText(SUBTEXTS.none);
-        }
-        setDisabledByMax(false);
-        return;
-      }
-    }
-    setList([]);
-    setDisabledByMax(false);
-    if (globalState.disabled) {
-      setSubText(SUBTEXTS.disabled);
-    } else if (globalState.required && list.length === 0) {
-      setSubText(SUBTEXTS.required);
-      setError(true);
-    } else {
-      setSubText(SUBTEXTS.none);
-    }
-    setButtonDisabled(false);
-  }, [globalState.max]);
-
-  useEffect(() => {
-    if (
-      globalState.max !== "" &&
-      parseInt(globalState.max) >= 0 &&
-      list.length >= parseInt(globalState.max)
-    ) {
-      setDisabledByMax(true);
-      setSubText(SUBTEXTS.max);
-    } else {
-      if (globalState.disabled) {
-        setSubText(SUBTEXTS.disabled);
-      } else if (globalState.required && list.length === 0) {
-        setSubText(SUBTEXTS.required);
-      } else {
-        setSubText(SUBTEXTS.none);
-      }
-      setDisabledByMax(false);
-    }
-  }, [list]);
+  //functions related to specific events
 
   const onInputFocus = (value) => {
     if (list.includes(value)) {
@@ -134,7 +60,7 @@ export default function List(props) {
       tempList.push(childValue);
       setList(tempList);
       setChildValue("");
-      if (list.length === globalState.max - 1) {
+      if (list.length === parseInt(globalState.max) - 1) {
         setButtonDisabled(true);
         setSubText(SUBTEXTS.max);
         setDisabledByMax(true);
@@ -142,6 +68,109 @@ export default function List(props) {
     }
   };
 
+  const onDragEnd = (result) => {
+    if (!result.destination) return;
+    const items = Array.from(list);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setList(items);
+  };
+
+  //utility functions for List
+
+  const checkIfMaxReached = () => {
+    return (
+      globalState.max !== "" &&
+      parseInt(globalState.max) >= 0 &&
+      list.length >= parseInt(globalState.max)
+    );
+  };
+
+  const pickSubText = () => {
+    if (globalState.disabled) {
+      setSubText(SUBTEXTS.disabled);
+    } else if (checkIfMaxReached()) {
+      setSubText(SUBTEXTS.max);
+    } else if (globalState.required && list.length === 0) {
+      setSubText(SUBTEXTS.required);
+      setError(true);
+    } else {
+      setSubText(SUBTEXTS.none);
+      setError(false);
+    }
+  };
+
+  //Using Effects to handle when particular parts of List change, and making decisions about how the UI should respond
+  //How the List should respond if disabled changed globally
+  useEffect(() => {
+    if (globalState.disabled) {
+      setSubText(SUBTEXTS.disabled);
+    } else {
+      pickSubText();
+    }
+  }, [globalState.disabled]);
+
+  //How the List should respond if required changed globally
+  useEffect(() => {
+    if (!globalState.required) {
+      pickSubText();
+      setError(false);
+    }
+  }, [globalState.required]);
+
+  //How the List should respond if max changed globally, the extra code is to handle negatives
+  useEffect(() => {
+    if (globalState.max !== "") {
+      if (parseInt(globalState.max) < 0) {
+        if (globalState.disabled) {
+          setSubText(SUBTEXTS.disabled);
+        } else {
+          setSubText(SUBTEXTS.none);
+        }
+        setDisabledByMax(false);
+        setError(false);
+        setButtonDisabled(false);
+        return;
+      }
+    }
+    setList([]);
+    setDisabledByMax(false);
+
+    if (globalState.disabled) {
+      setSubText(SUBTEXTS.disabled);
+    } else if (list.length === parseInt(globalState.max)) {
+      setButtonDisabled(true);
+      setSubText(SUBTEXTS.max);
+      setDisabledByMax(true);
+    } else {
+      setSubText(SUBTEXTS.none);
+      setDisabledByMax(false);
+      setError(false);
+      setButtonDisabled(false);
+    }
+  }, [globalState.max]);
+
+  //How the List should respond if the List's list changes
+  useEffect(() => {
+    if (checkIfMaxReached()) {
+      setDisabledByMax(true);
+      setSubText(SUBTEXTS.max);
+    } else {
+      if (globalState.disabled) {
+        setSubText(SUBTEXTS.disabled);
+      } else if (globalState.required && list.length === 0) {
+        setSubText(SUBTEXTS.required);
+        setError(true);
+      } else {
+        setSubText(SUBTEXTS.none);
+      }
+      setDisabledByMax(false);
+    }
+  }, [list]);
+
+  //functions for the children of List in this case ListItem, the Controller is another component that also passes functions to its child
+
+  //function called when the x on a list item is clicked
   const deleteListItem = (item) => {
     const tempList = list.filter((el) => el !== item);
     setList(tempList);
@@ -163,14 +192,7 @@ export default function List(props) {
     }
   };
 
-  const onDragEnd = (result) => {
-    if (!result.destination) return;
-    const items = Array.from(list);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setList(items);
-  };
-
+  //function called when onChange of child (Input) occurs
   const trackInputInParent = (value) => {
     setChildValue(value);
     if (list.includes(value)) {

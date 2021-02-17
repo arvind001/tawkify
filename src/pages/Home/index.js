@@ -18,7 +18,7 @@ export default function Home(props) {
           <Controller />
         </div>
         <div className="home__list__container col">
-          <div className="home__heading">List</div>
+          <div className="home__heading">List Input</div>
           <List
             label={state.label}
             max={max}
