@@ -8,4 +8,5 @@
   max-height: 530px;
   overflow-y: scroll;
   list-style-position: inside;
+  margin-top: 10px;
 }

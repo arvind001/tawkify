@@ -42,4 +42,21 @@ button:hover {
 
 input[type="checkbox"] {
   margin-right: 10px;
+  appearance: none;
+  border: 1px solid purple;
+  border-radius: 2px;
+  width: 18px;
+  height: 18px;
+}
+
+input[type="checkbox"]:checked {
+  background-color: purple;
+  background: purple
+    url("data:image/gif;base64,R0lGODlhCwAKAIABAP////3cnSH5BAEKAAEALAAAAAALAAoAAAIUjH+AC73WHIsw0UCjglraO20PNhYAOw==")
+    3px 3px no-repeat;
+  border-color: purple;
+}
+
+input[type="checkbox"]:focus {
+  outline: none;
 }
