@@ -49,6 +49,10 @@ input[type="checkbox"] {
   height: 18px;
 }
 
+input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+
 input[type="checkbox"]:checked {
   background-color: purple;
   background: purple
