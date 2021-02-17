@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Input from "../Input/index";
 import { store } from "../../store/store";
 import "./style.css";
@@ -69,7 +69,6 @@ export default function Controller(props) {
         subText="Negatives will be treated the same as no max."
         type="number"
       />
-      {/* <div className="label">Set Required</div> */}
       <div className="checkbox-label__container row">
         <input
           type="checkbox"
@@ -78,7 +77,6 @@ export default function Controller(props) {
         />
         <div className="checkbox-label">Required</div>
       </div>
-      {/* <div className="label">Set Disabled</div> */}
       <div className="checkbox-label__container row">
         <input
           type="checkbox"
