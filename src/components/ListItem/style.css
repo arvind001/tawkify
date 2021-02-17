@@ -1,10 +1,10 @@
 .list-item__container {
   width: 310px;
   justify-content: space-between;
-  padding: 5px 10px 5px 10px;
+  padding: 3px 10px 3px 10px;
   border-radius: 5px;
   align-items: center;
-  margin: 10px 0;
+  /* margin: px 0; */
   background-color: white;
 }
 

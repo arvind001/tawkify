@@ -9,7 +9,11 @@ export default function ListItem(props) {
   };
 
   return (
-    <Draggable key={props.key} draggableId={props.label} index={props.index}>
+    <Draggable
+      key={props.uniqueKey}
+      draggableId={props.label}
+      index={props.index}
+    >
       {(provided, snapshot) => (
         <div
           className={`list-item__container row ${
@@ -25,7 +29,7 @@ export default function ListItem(props) {
             className={`remove ${props.disabled && "remove--disabled"}`}
             onClick={onClickDelete}
           >
-            <ClearIcon fontSize="small" style={{ padding: "5px" }} />
+            <ClearIcon fontSize="small" style={{ padding: "3px" }} />
           </button>
         </div>
       )}
